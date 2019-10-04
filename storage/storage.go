@@ -26,54 +26,9 @@ func getStorageAccountsClient() storage.AccountsClient {
 }
 
 func CreateStorageAccount(ctx context.Context, accountName string, rg string) (storage.Account, error) {
-	storageAccountsClient := getStorageAccountsClient()
-
-	var s storage.Account
-
-	result, err := storageAccountsClient.CheckNameAvailability(context.Background(),
-		storage.AccountCheckNameAvailabilityParameters{
-			Name: to.StringPtr(accountName),
-			Type: to.StringPtr("Microsoft.Storage/storageAccounts")})
-	if err != nil {
-		log.Fatalf("%s: %v", "storage account creation failed", err)
-	}
-	if *result.NameAvailable != true {
-		log.Fatalf("%s: %v", "storage account name not available", err)
-	}
-
-	// create the account
-	future, err := storageAccountsClient.Create(ctx, rg, accountName, storage.AccountCreateParameters{
-		Sku: &storage.Sku{
-			Name: storage.StandardLRS},
-		Kind:     storage.Storage,
-		Location: to.StringPtr("westus2"),
-		AccountPropertiesCreateParameters: &storage.AccountPropertiesCreateParameters{},
-	})
-
-	if err != nil {
-		return s, fmt.Errorf("failed to start creating storage account: %v\n", err)
-	}
-
-	err = future.WaitForCompletionRef(ctx, storageAccountsClient.Client)
-
-	if err != nil {
-		return s, fmt.Errorf("failed to finish creating storage account: %v\n", err)
-	}
-
-	return future.Result(storageAccountsClient)
+	// your logic here
 }
 
 func DeleteStorageAccount(ctx context.Context, accountName string, rg string) error {
-	storageAccountsClient := getStorageAccountsClient()
-	
-	_, err := storageAccountsClient.Delete(ctx, rg, accountName)
-
-	return err
+	// your logic here
 }
-// func getStorageAccountsClient() storage.AccountsClient {
-// 	storageAccountsClient := storage.NewAccountsClient(config.SubscriptionID())
-// 	auth, _ := iam.GetResourceManagementAuthorizer()
-// 	storageAccountsClient.Authorizer = auth
-// 	storageAccountsClient.AddToUserAgent(config.UserAgent())
-// 	return storageAccountsClient
-// }
