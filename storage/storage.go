@@ -25,14 +25,14 @@ func getStorageAccountsClient() storage.AccountsClient {
 	return groupsClient
 }
 
-func CreateStorageAccount(ctx context.Context) (storage.Account, error) {
+func CreateStorageAccount(ctx context.Context, accountName string, rg string) (storage.Account, error) {
 	storageAccountsClient := getStorageAccountsClient()
 
 	var s storage.Account
 
 	result, err := storageAccountsClient.CheckNameAvailability(context.Background(),
 		storage.AccountCheckNameAvailabilityParameters{
-			Name: to.StringPtr("clmgodevstgacc1"),
+			Name: to.StringPtr(accountName),
 			Type: to.StringPtr("Microsoft.Storage/storageAccounts")})
 	if err != nil {
 		log.Fatalf("%s: %v", "storage account creation failed", err)
@@ -42,7 +42,7 @@ func CreateStorageAccount(ctx context.Context) (storage.Account, error) {
 	}
 
 	// create the account
-	future, err := storageAccountsClient.Create(ctx, "clm-go-dev", "clmgodevstgacc1", storage.AccountCreateParameters{
+	future, err := storageAccountsClient.Create(ctx, rg, accountName, storage.AccountCreateParameters{
 		Sku: &storage.Sku{
 			Name: storage.StandardLRS},
 		Kind:     storage.Storage,
@@ -63,7 +63,13 @@ func CreateStorageAccount(ctx context.Context) (storage.Account, error) {
 	return future.Result(storageAccountsClient)
 }
 
+func DeleteStorageAccount(ctx context.Context, accountName string, rg string) error {
+	storageAccountsClient := getStorageAccountsClient()
+	
+	_, err := storageAccountsClient.Delete(ctx, rg, accountName)
 
+	return err
+}
 // func getStorageAccountsClient() storage.AccountsClient {
 // 	storageAccountsClient := storage.NewAccountsClient(config.SubscriptionID())
 // 	auth, _ := iam.GetResourceManagementAuthorizer()

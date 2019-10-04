@@ -10,5 +10,22 @@ import (
 func main() {
 	config.LoadSettings()
 	ctx := context.Background()
-	fmt.Println(storage.CreateStorageAccount(ctx))
+
+	accountName := "clmgodevstgacc"
+	rg := "clm-go-dev"
+
+	_, err := storage.CreateStorageAccount(ctx, accountName, rg)
+	if err != nil {
+		fmt.Println("Was unable to create storage account: %v", err.Error())
+	} else {
+		fmt.Println("Storage account CREATED successfully")
+	}
+	
+	err = storage.DeleteStorageAccount(ctx, accountName, rg)
+	if err != nil {
+		fmt.Println("Was unable to delete storage account: %v", err.Error())
+	} else {
+		fmt.Println("Storage account DELETED successfully")
+
+	}
 }
