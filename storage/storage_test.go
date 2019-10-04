@@ -1,5 +1,5 @@
 // run these tests by executing the following command from the command line:
-// go test ./storage/
+// go test 
 package storage
 
 import (
@@ -32,6 +32,10 @@ var _ = Describe("Storage Account", func() {
 			resourceGroup := "clm-go-dev"
 
 			_, err := CreateStorageAccount(ctx, storageAccountName, resourceGroup)
+
+			Expect(err).NotTo(HaveOccurred())
+
+			err = DeleteStorageAccount(ctx, storageAccountName, resourceGroup)
 
 			Expect(err).NotTo(HaveOccurred())
 		})
