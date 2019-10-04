@@ -6,7 +6,6 @@ import (
 	"log"
 
 	"github.com/Azure/azure-sdk-for-go/services/storage/mgmt/2017-06-01/storage"
-	// "github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/to"
 
 	"blobstorehelper/config"
@@ -70,10 +69,3 @@ func DeleteStorageAccount(ctx context.Context, accountName string, rg string) er
 
 	return err
 }
-// func getStorageAccountsClient() storage.AccountsClient {
-// 	storageAccountsClient := storage.NewAccountsClient(config.SubscriptionID())
-// 	auth, _ := iam.GetResourceManagementAuthorizer()
-// 	storageAccountsClient.Authorizer = auth
-// 	storageAccountsClient.AddToUserAgent(config.UserAgent())
-// 	return storageAccountsClient
-// }
