@@ -2,9 +2,9 @@ package main
 
 import (
 	"fmt"
-	""
+	"blobstorehelper/blob"
 )
 
 func main() {
-	fmt.Println("Hello, world!")
+	fmt.Println(blob.CreateBlockBlobFromScratch())
 }
