@@ -2,9 +2,13 @@ package main
 
 import (
 	"fmt"
-	"blobstorehelper/blob"
+	"context"
+	"blobstorehelper/storage"
+	"blobstorehelper/config"
 )
 
 func main() {
-	fmt.Println(blob.CreateBlockBlobFromScratch())
+	config.LoadSettings()
+	ctx := context.Background()
+	fmt.Println(storage.CreateStorageAccount(ctx))
 }
