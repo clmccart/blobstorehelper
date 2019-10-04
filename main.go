@@ -11,7 +11,7 @@ func main() {
 	config.LoadSettings()
 	ctx := context.Background()
 
-	accountName := "clmgodevstgacc"
+	accountName := "testsorageacc"
 	rg := "clm-go-dev"
 
 	_, err := storage.CreateStorageAccount(ctx, accountName, rg)
